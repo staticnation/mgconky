@@ -99,8 +99,8 @@ color5 lime             # Bar graphs
 #--------------------------
 # Weather variables
 #--------------------------
-template6 "<ENTER YOUR API KEY HERE>"             # OpenWeatherMap API key (https://home.openweathermap.org/api_keys)
-template7 "<ENTER YOUR CITY ID HERE>"             # OpenWeatherMap City ID (the number in the URL of your city, for example:  https://openweathermap.org/city/5128581)
+template6 "a5f002bf8cec9ae6eecd19acb07d3bc0"             # OpenWeatherMap API key (https://home.openweathermap.org/api_keys)
+template7 "5805687"             # OpenWeatherMap City ID (the number in the URL of your city, for example:  https://openweathermap.org/city/5128581)
 template8 "imperial"                              # Temp unit ("default" for Kelvin, "metric" for Celcius, "imperial" for Fahrenheit)
 template9 ""                                      # Locale (e.g. "es_ES.UTF-8") # Leave empty for default
 
@@ -118,7 +118,7 @@ ${voffset 0}${goto 50}${font Neuropolitical:pixelsize=12}${color0}${execi 100000
 ${voffset 0}${goto 50}${font Neuropolitical:size=10}${nodename}${font}
 ${voffset 8}Kernel: ${color3}${alignr}${sysname} ${kernel}${color}
 ${voffset 2}Uptime: ${color3}${alignr}${uptime_short}${color}
-${voffset 2}CPU:${goto 50}${color4}${execi 10 sensors | grep "Tdie" | cut -c16-17}°C${color}${goto 100}${alignr}GPU:  ${color4}${nvidia temp}°C${color}
+${voffset 2}CPU:${goto 50}${color4}${execi 60 sensors | grep "Package id 0" | cut -c16-19}°C${color}${goto 100}${alignr}GPU:  ${color4}${execi 60 sensors | grep edge | cut -c 16-19}°C${color}
 
 #--------------------------
 # Weather
@@ -161,37 +161,57 @@ ${voffset -13}${alignc -77}${color3}${execi 300 ~/.conky/mgconky/weather/parse_f
 #--------------------------
 # Drive #1
 #--------------------------
-${voffset 0}${color0}${font Neuropolitical:size=8:bold}DRIVE${font} /dev/nvme0n1${color} ${color1}${hr 2}${color}
-# ***** Read and write speeds for this device *****
-#${voffset 4}Read: ${color3}${diskio_read nvme0n1}/s${color}${goto 120}Write: ${color3}${diskio_write nvme0n1}/s${color}
-#${voffset -4}${color5}${diskiograph_read nvme0n1 14,110 000000 ff0000}${color}${alignr}${color5}${diskiograph_write nvme0n1 14,110 000000 00ffff}${color}
-# ***** Now we show the mounts under this device *****
-${voffset 2}/:${alignr}${color3}${lua MyRound ${fs_used /} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /} 0 ceil G addSpace}B${color}
-${voffset -2}${color5}${fs_bar /}${color}
-${voffset 2}/home:${alignr}${color3}${lua MyRound ${fs_used /home} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /home} 0 ceil G addSpace}B${color}
-${voffset -2}${color5}${fs_bar /home}${color}
-
-#--------------------------
-# Drive #2
-#--------------------------
 ${voffset 0}${color0}${font Neuropolitical:size=8:bold}DRIVE${font} /dev/sda${color} ${color1}${hr 2}${color}
 # ***** Read and write speeds for this device *****
 #${voffset 4}Read: ${color3}${diskio_read sda}/s${color}${goto 120}Write: ${color3}${diskio_write sda}/s${color}
 #${voffset -4}${color5}${diskiograph_read sda 14,110 000000 ff0000}${color}${alignr}${color5}${diskiograph_write sda 14,110 000000 00ffff}${color}
 # ***** Now we show the mounts under this device *****
-${voffset 2}/mnt/SSD120:${alignr}${color3}${lua MyRound ${fs_used /mnt/SSD120} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /mnt/SSD120} 0 ceil G addSpace}B${color}
-${voffset -2}${color5}${fs_bar 6 /mnt/SSD120}${color}
+${voffset 2}/:${alignr}${color3}${lua MyRound ${fs_used /} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /} 0 ceil G addSpace}B${color}
+${voffset -2}${color5}${fs_bar /}${color}
 
 #--------------------------
-# Drive #3
+# Drive #2
 #--------------------------
 ${voffset 0}${color0}${font Neuropolitical:size=8:bold}DRIVE${font} /dev/sdb${color} ${color1}${hr 2}${color}
 # ***** Read and write speeds for this device *****
 #${voffset 4}Read: ${color3}${diskio_read sdb}/s${color}${goto 120}Write: ${color3}${diskio_write sdb}/s${color}
 #${voffset -4}${color5}${diskiograph_read sdb 14,110 000000 ff0000}${color}${alignr}${color5}${diskiograph_write sdb 14,110 000000 00ffff}${color}
 # ***** Now we show the mounts under this device *****
-${voffset 2}/mnt/SSD180:${alignr}${color3}${lua MyRound ${fs_used /mnt/SSD180} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /mnt/SSD180} 0 ceil G addSpace}B${color}
-${voffset -2}${color5}${fs_bar 6 /mnt/SSD180}${color}
+${voffset 2}6TB:${alignr}${color3}${lua MyRound ${fs_used /media/static/6TB} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /media/static/6TB} 0 ceil G addSpace}B${color}
+${voffset -2}${color5}${fs_bar 6 /media/static/6TB}${color}
+
+#--------------------------
+# Drive #3
+#--------------------------
+${voffset 0}${color0}${font Neuropolitical:size=8:bold}DRIVE${font} /dev/sdc${color} ${color1}${hr 2}${color}
+# ***** Read and write speeds for this device *****
+#${voffset 4}Read: ${color3}${diskio_read sdc}/s${color}${goto 120}Write: ${color3}${diskio_write sdc}/s${color}
+#${voffset -4}${color5}${diskiograph_read sdc 14,110 000000 ff0000}${color}${alignr}${color5}${diskiograph_write sdc 14,110 000000 00ffff}${color}
+# ***** Now we show the mounts under this device *****
+${voffset 2}Backup Plus 4TB:${alignr}${color3}${lua MyRound ${fs_used /media/static/Seagate Backup Plus Drive} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /media/static/Seagate Backup Plus Drive} 0 ceil G addSpace}B${color}
+${voffset -2}${color5}${fs_bar 6 /media/static/Seagate Backup Plus Drive}${color}
+
+#--------------------------
+# Drive #4
+#--------------------------
+${voffset 0}${color0}${font Neuropolitical:size=8:bold}DRIVE${font} /dev/sdd${color} ${color1}${hr 2}${color}
+# ***** Read and write speeds for this device *****
+#${voffset 4}Read: ${color3}${diskio_read sdd}/s${color}${goto 120}Write: ${color3}${diskio_write sdd}/s${color}
+#${voffset -4}${color5}${diskiograph_read sdd 14,110 000000 ff0000}${color}${alignr}${color5}${diskiograph_write sdd 14,110 000000 00ffff}${color}
+# ***** Now we show the mounts under this device *****
+${voffset 2}Backup Plus 6TB:${alignr}${color3}${lua MyRound ${fs_used /media/static/Seagate Backup Plus Drive1} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /media/static/Seagate Backup Plus Drive1} 0 ceil G addSpace}B${color}
+${voffset -2}${color5}${fs_bar 6 /media/static/Seagate Backup Plus Drive1}${color}
+
+#--------------------------
+# Drive #5
+#--------------------------
+${voffset 0}${color0}${font Neuropolitical:size=8:bold}DRIVE${font} /dev/sde${color} ${color1}${hr 2}${color}
+# ***** Read and write speeds for this device *****
+#${voffset 4}Read: ${color3}${diskio_read sde}/s${color}${goto 120}Write: ${color3}${diskio_write sde}/s${color}
+#${voffset -4}${color5}${diskiograph_read sde 14,110 000000 ff0000}${color}${alignr}${color5}${diskiograph_write sde 14,110 000000 00ffff}${color}
+# ***** Now we show the mounts under this device *****
+${voffset 2}My Passport 1TB:${alignr}${color3}${lua MyRound ${fs_used /media/static/My Passport} 0 halfup G hideUnit}${color} of ${color3}${lua MyRound ${fs_size /media/static/My Passport} 0 ceil G addSpace}B${color}
+${voffset -2}${color5}${fs_bar 6 /media/static/My Passport}${color}
 
 #----------------------
 # Top Processes
@@ -211,15 +231,15 @@ ${voffset 0}${font StyleBats:size=10}h${font}${voffset -1}${color3}${offset 5}${
 ${voffset 0}${font StyleBats:size=10}h${font}${voffset -1}${color3}${offset 5}${top name 5}${goto 140}${top pid 5}${alignr}${top cpu 5}%${color}
 
 #--------------------
-# Network -- Replace "enp34s0" below with name of your ethernet device. (Find name of ethernet device by typing "ip a" in terminal.)
+# Network -- Replace "eno1" below with name of your ethernet device. (Find name of ethernet device by typing "ip a" in terminal.)
 #--------------------
 ${voffset 0}${color0}${font Neuropolitical:size=8:bold}NETWORK ${color1}${hr 2}${color}${font}
 ${voffset 6}Ethernet Device:${goto 140}${color3}${gw_iface}${color}
-${voffset 0}Internal IP:${goto 140}${color3}${addr enp34s0}${color}
+${voffset 0}Internal IP:${goto 140}${color3}${addr eno1}${color}
 ${voffset 0}External IP:${goto 140}${color3}${execi 1800 wget -q -O - checkip.dyndns.org | sed -e 's/[^[:digit:]\|.]//g'}${color}
-${voffset 6}DL: ${color3}${downspeed enp34s0}/s${color}${goto 140}UL:${color} ${color3}${upspeed enp34s0}/s${color}
-${voffset -2}${color5}${downspeedgraph enp34s0 25,90 000000 ff0000}${color}${alignr}${color5}${upspeedgraph enp34s0 25,90 000000 00ffff}${color}
-${voffset -6}Total: ${color3}${totaldown enp34s0}${color}${goto 140}Total:${color} ${color3}${totalup enp34s0}${color}
+${voffset 6}DL: ${color3}${downspeed eno1}/s${color}${goto 140}UL:${color} ${color3}${upspeed eno1}/s${color}
+${voffset -2}${color5}${downspeedgraph eno1 25,90 000000 ff0000}${color}${alignr}${color5}${upspeedgraph eno1 25,90 000000 00ffff}${color}
+${voffset -6}Total: ${color3}${totaldown eno1}${color}${goto 140}Total:${color} ${color3}${totalup eno1}${color}
 
 #--------------------
 # Connections - netstat shows number of connections from your computer and application/PID making it. Kill spyware!
